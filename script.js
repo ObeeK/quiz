@@ -5,6 +5,8 @@ var questionP = document.querySelector("#questionP")
 var questionNum = -1
 let score = 0;
 let timer = 0;
+let ticking = true
+let initials = 'YA'
 // after each question - questionNum++
 
 var questions = [
@@ -40,7 +42,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-btnStart.addEventListener("click", function(event) {
+btnStart.addEventListener("click", function (event) {
     // hide start page
     startPage.classList.add("hidden");
 
@@ -52,11 +54,11 @@ btnStart.addEventListener("click", function(event) {
 })
 
 // Display next question (function)
-function nextQuestion(event){
-    if(event && event.target.innerText === questions[questionNum].correct){
+function nextQuestion(event) {
+    if (event && event.target.innerText === questions[questionNum].correct) {
         score++
         document.getElementById('result').innerText = 'Correct!'
-    }else if(event){
+    } else if (event) {
         document.getElementById('result').innerText = 'Wrong!'
         timer -= 5;
         document.getElementById('timer').innerText = `timer: ${timer}`
@@ -64,42 +66,68 @@ function nextQuestion(event){
 
     console.log(score)
     questionNum++
-    
+
+    if (questionNum >= questions.length) {
+        ticking = false
+        document.getElementById('questionP').classList.add('hidden');
+        document.getElementById('initials').classList.remove('hidden');
+        hiScores();
+        return;
+    }
+
     document.getElementById('question').innerText = questions[questionNum].question
     let answerButtons = document.getElementById('answerContainer').children
-    for(let i = 0; i < answerButtons.length; i++){
-        if(answerButtons[i].tagName === 'BUTTON'){
+    for (let i = 0; i < answerButtons.length; i++) {
+        if (answerButtons[i].tagName === 'BUTTON') {
             answerButtons[i].innerText = questions[questionNum].answer[i]
         }
     }
-    
+
 }
 
 
-var quiz = function() {
+var quiz = function () {
 
 }
 
 // Make timer
-
-function startQuiz(){
-    timer = 75
+function timerFunction() {
+    if (ticking) timer--
     document.getElementById('timer').innerText = `timer: ${timer}`
-   let timerInterval =  setInterval(() => {
-        timer--
-        document.getElementById('timer').innerText = `timer: ${timer}`
 
-        if(timer <= 0){
-            clearInterval(timerInterval)
-            alert('You lose!')
-            document.getElementById('questionP').classList.add('hidden')
-            document.getElementById('initials').classList.remove('hidden')
-        }
-    },1000)
+    if (timer <= 0) {
+        ticking = false;
+        alert('You lose!')
+        document.getElementById('questionP').classList.add('hidden')
+        document.getElementById('initials').classList.remove('hidden')
+    }
+
+    if (ticking) {
+        setTimeout(timerFunction, 1000)
+    }
+}
+
+
+
+function startQuiz() {
+    timer = 10
+    document.getElementById('timer').innerText = `timer: ${timer}`
+    setTimeout(timerFunction, 1000)
 }
 
 // Function to check if answer is correct (display if wrong/right/subtract timer)
 
 // Initials page (localStorage)
+function hiScores(){
+    let hiscores = localStorage.getItem('hiscores')
+    let addHiscore = `${initials}: ${timer}|` //split by |
+    if(hiscores){
+        localStorage.setItem('hiscores', `${hiscores} ${addHiscore}`)
+        console.log(hiscores)
+    }else{
+        localStorage.setItem('hiscores', addHiscore)
+        console.log(hiscores)
+    }
+}
 
 // highscore page (LocalStorage)
