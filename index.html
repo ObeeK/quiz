@@ -9,18 +9,20 @@
 </head>
 <body>
         <!-- header - hiScores & timeleft -->
-        <header></header>
+        <header>
+            <div id = 'timer'>
+                Timer: 0
+            </div>
+        </header>
         
     <!-- starting page-->
-    <div>
-        
-    </div>
+    
 
     <div class="starting" id="startingP">
         <div class="bigtext"><h2>BlahBLahBLah</h2></div>
         <div class="paragraph"><p>dsjflakjsdflkajsdflasdkfjasldkfj</p></div>
         <div class="btn1" id="btnstart">
-            <button>Start Quiz</button>
+            <button onClick = 'startQuiz()'>Start Quiz</button>
         </div>
     </div>
     <!-- questions -->
@@ -32,9 +34,15 @@
             <button onclick='nextQuestion(event)'></button>
             <button onclick='nextQuestion(event)'></button>
         </div>
+        <div id = 'result'></div>
     </div>
 
     <!-- Initials -->
+    <div id="initials" class="hidden">
+        <div id="initials-container">
+            <p>insert your initials</p>
+        </div>
+    </div>
 
     <!-- HiScores -->
     <script src="script.js"></script>

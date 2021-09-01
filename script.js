@@ -53,9 +53,16 @@ btnStart.addEventListener("click", function(event) {
 
 // Display next question (function)
 function nextQuestion(event){
-    if(event){
-        if (event.target.innerHTML === questions[questionNum].correct) score++
-    } 
+    if(event && event.target.innerText === questions[questionNum].correct){
+        score++
+        document.getElementById('result').innerText = 'Correct!'
+    }else if(event){
+        document.getElementById('result').innerText = 'Wrong!'
+        timer -= 5;
+        document.getElementById('timer').innerText = `timer: ${timer}`
+    }
+
+    console.log(score)
     questionNum++
     
     document.getElementById('question').innerText = questions[questionNum].question
@@ -75,9 +82,21 @@ var quiz = function() {
 
 // Make timer
 
-setInterval(() => {
-    
-},1000)
+function startQuiz(){
+    timer = 75
+    document.getElementById('timer').innerText = `timer: ${timer}`
+   let timerInterval =  setInterval(() => {
+        timer--
+        document.getElementById('timer').innerText = `timer: ${timer}`
+
+        if(timer <= 0){
+            clearInterval(timerInterval)
+            alert('You lose!')
+            document.getElementById('questionP').classList.add('hidden')
+            document.getElementById('initials').classList.remove('hidden')
+        }
+    },1000)
+}
 
 // Function to check if answer is correct (display if wrong/right/subtract timer)
 
