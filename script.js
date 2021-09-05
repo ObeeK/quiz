@@ -117,7 +117,7 @@ function timerFunction() {
 
 
 function startQuiz() {
-    timer = 10
+    timer = 75
     document.getElementById('timer').innerText = `timer: ${timer}`
     setTimeout(timerFunction, 1000)
 }
