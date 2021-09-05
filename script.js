@@ -6,7 +6,6 @@ var questionNum = -1
 let score = 0;
 let timer = 0;
 let ticking = true
-let initials = 'YA'
 // after each question - questionNum++
 
 var questions = [
@@ -50,8 +49,14 @@ btnStart.addEventListener("click", function (event) {
     questionP.classList.remove("hidden");
 
     // start timer
+    
 
 })
+
+// initButton.addEventListener("click", function (event) {
+//     questionP.classList.add("hidden");
+//     initials.classList.remove("hidden");
+// }),
 
 // Display next question (function)
 function nextQuestion(event) {
@@ -72,7 +77,7 @@ function nextQuestion(event) {
         document.getElementById('questionP').classList.add('hidden');
         document.getElementById('initials').classList.remove('hidden');
         hiScores();
-        return;
+        
     }
 
     document.getElementById('question').innerText = questions[questionNum].question
@@ -80,8 +85,10 @@ function nextQuestion(event) {
     for (let i = 0; i < answerButtons.length; i++) {
         if (answerButtons[i].tagName === 'BUTTON') {
             answerButtons[i].innerText = questions[questionNum].answer[i]
+        } else {
+            return;
         }
-    }
+    } 
 
 }
 
@@ -118,7 +125,7 @@ function startQuiz() {
 // Function to check if answer is correct (display if wrong/right/subtract timer)
 
 // Initials page (localStorage)
-function hiScores(){
+function hiScores(initials){
     let hiscores = localStorage.getItem('hiscores')
     let addHiscore = `${initials}: ${timer}|` //split by |
     if(hiscores){
@@ -128,6 +135,20 @@ function hiScores(){
         localStorage.setItem('hiscores', addHiscore)
         console.log(hiscores)
     }
+}
+
+
+var initialSub = function() {
+    // Save initials
+    var button1 = document.getElementById("initButton")
+    button1.addEventListener('click', function(event) {
+        event.preventDefault();
+        var initials = document.getElementById("initInput").value;
+        hiScores(initials);
+        
+        console.log();
+    })
+    //Go to hiScores page
 }
 
 // highscore page (LocalStorage)
